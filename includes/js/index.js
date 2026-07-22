@@ -343,7 +343,6 @@ async function loadSettings() {
     renderPayloads(payloadsList);
     loadAdvancedPayloads();
     loadLastTab();
-    loadGoldHENVer();
     autoJailbreak();
     updateBareboneJB();
     loadLapseChain();
@@ -651,7 +650,7 @@ function cleanUp() {
 
   // Wipe individual refs
   const toDestroy = [
-    'settingsBtn', 'aboutBtn', 'initialScreen', 'chooseGoldHEN',
+    'settingsBtn', 'aboutBtn', 'initialScreen',
     'psLogoContainer', 'clickToStartText',
     'ps4FwStatus', 'stopAutoJbBtn', 'payloadsSection', 'payloadsList', 'payloadsSectionTitle',
     'ps4IpInput', 'ps4FwSelect', 'scanGoldHENPayLoader', 'shutdownServerBtn',

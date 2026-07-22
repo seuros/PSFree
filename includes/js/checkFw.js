@@ -4,7 +4,7 @@ function CheckFW() {
     var fwVersion = navigator.userAgent.substring(navigator.userAgent.indexOf('5.0 (') + 19, navigator.userAgent.indexOf(') Apple')).replace("layStation 4/", "");
     var elementsToHide = [
         'ps-logo-container', 'choosejb-initial', 'exploit-main-screen', 'scrollDown',
-        'click-to-start-text', 'chooseGoldHEN', 'advancedPayloads', 'chooseExploitChain'
+        'click-to-start-text', 'advancedPayloads', 'chooseExploitChain'
     ];
 
     if (ps4Regex.test(userAgent)) {

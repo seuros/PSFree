@@ -105,10 +105,6 @@ function applyLanguage(lang) {
     if (ui.settingsPopup) {
         updateText(ui.settingsPopup.querySelector('h2'), 'settingsPsfreeHeader');
         updateText(ui.settingsPopup.querySelector('#close-settings'), 'closeButton');
-        updateText(ui.settingsPopup.querySelector('#ghVer'), 'ghVer');
-        var ghOtherVer = ui.settingsPopup.querySelector('#chooseGoldHEN summary');
-        if (ghOtherVer) updateText(ghOtherVer, 'otherVer');
-        updateText(ui.settingsPopup.querySelector('#latestVer'), 'latestVer');
         updateText(ui.settingsPopup.querySelector('#scanPayLoader'), 'scanPayLoader');
         updateText(ui.settingsPopup.querySelector('#shutdownServerBtn'), 'shutdownServerBtn');
     }
