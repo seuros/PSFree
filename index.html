@@ -525,14 +525,7 @@
             }
         });
     </script>
-    <!-- Choose index.js or index-legacy.js for older browsers, generated with Babel -->
-    <script id="main-logic-loader">
-        (function () {
-            var isModern = 'noModule' in document.createElement('script');
-            var scriptPath = isModern ? './includes/js/index.js' : './includes/js/index-legacy.js';
-            document.write('<script src="' + scriptPath + '"><\/script>');
-        })();
-    </script>
+    <script src="./includes/js/index.js"></script>
     <script src="./includes/payloads/payloads.js"></script>
     <script src="./includes/js/payloadsList.js"></script>
     <script src="./includes/js/language.js"></script>
