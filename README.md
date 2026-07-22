@@ -7,7 +7,7 @@ itself based on [Al-Azif/psfree-lapse](https://github.com/Al-Azif/psfree-lapse) 
 > **Not for human consumption.** This is a stripped, minimalistic dev fork —
 > personal tooling, English-only, one fixed skin, no switchers. If you want the
 > full featured host (languages, themes, layouts, external mirror), use the
-> upstreams above. No support, no releases, no promises.
+> upstreams above. No support, no releases. Works on my machines, probably bugs.
 
 ## Fork deltas
 
