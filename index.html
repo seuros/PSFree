@@ -8,19 +8,8 @@
     <meta name="description" content="A feature rich PS4 exploit host"/>
     <meta name="author" content="ArabPixel">
     <meta name="keywords" content="PS4, PlayStation 4, webkit exploit, jailbreak, psfree lapse">
-    <link rel="stylesheet" id="main-stylesheet" href="">
-    <link rel="stylesheet" id="color-stylesheet" href="">
-    <script>
-        // Prevent "Theme Flash" by applying the href before the body renders
-        var savedTheme = localStorage.getItem('theme') || "index";
-        var savedColor = localStorage.getItem('color') || "default";
-        if (savedTheme) {
-            document.getElementById('main-stylesheet').setAttribute('href', './includes/css/layouts/' + savedTheme + '.css');
-        }
-        if (savedColor){
-            document.getElementById('color-stylesheet').setAttribute('href', './includes/css/colors/' + savedColor + '.css');
-        }
-    </script>
+    <link rel="stylesheet" id="main-stylesheet" href="./includes/css/layouts/index.css">
+    <link rel="stylesheet" id="color-stylesheet" href="./includes/css/colors/default.css">
 </head>
 
 <body class="bg-gray-900 text-white">
@@ -406,31 +395,6 @@
                             <p>GoldHEN v2.4b18.5</p>
                         </label>
                     </details>
-                </div>
-            </div>
-            <div id="chooseTheme" class="mb-4 flex">
-                <h3 class="text-lg font-semibold mb-2" id="theme">Choose Layout</h3>
-                <div class="radio-group space-y-2 flex flex-wrap flex-row" id="layouts">
-                    <label class="flex items-center text-white/80">
-                        <input type="radio" name="theme" value="index" onchange="setTheme(this.value);">
-                        <p id="defaultTheme">Default</p>
-                    </label>
-                    <label class="flex items-center text-white/80">
-                        <input type="radio" name="theme" value="compact" onchange="setTheme(this.value);">
-                        <p id="compactTheme">Compact</p>
-                    </label>
-                </div>
-                <!-- Color  -->
-                <h3 class="text-lg font-semibold mb-2" id="colorWord">Color</h3>
-                <div class="radio-group space-y-2 flex flex-wrap" id="colors">
-                    <label class="flex items-center text-white/80">
-                        <input type="radio" name="colorTheme" value="default" onchange="setColors(this.value);">
-                        <p id="defaultColor">Default</p>
-                    </label>
-                    <label class="flex items-center text-white/80">
-                        <input type="radio" name="colorTheme" value="vibrant" onchange="setColors(this.value);">
-                        <p id="vibrantColor">Vibrant</p>
-                    </label>
                 </div>
             </div>
             <div id="chooseExploitChain" class="mb-4">

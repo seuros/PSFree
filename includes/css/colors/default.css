@@ -1,151 +1,151 @@
-#ps-logo {
-    fill: #3b82f6 !important;
+:root {
+    --bg0: #0A0A0A;
+    --bg1: #17171B;
+    --bg2: #26262C;
+    --ink: #B9C0CC;
+    --dim: #6B7280;
+    --amber: #FF9933;
+    --amber-btn: #C9761F;
+    --amber-btn-hover: #A85F16;
+    --gold: #FFCC66;
+    --teal: #66CCCC;
+    --lav: #CC99CC;
+    --coral: #FF8866;
+    --mint: #99DDBB;
+    --red: #CC3333;
+    --red-dark: #A02525;
 }
 
+body {
+    background: var(--bg0);
+    color: var(--ink);
+}
 
-#initial-screen.compact{
-    background-color: #1f2937 !important;
+#ps-logo {
+    fill: var(--amber) !important;
+}
+
+#initial-screen.compact {
+    background-color: var(--bg1) !important;
 }
 
 input[type="radio"]:checked {
     border: none;
-    background: #3B82F6;
+    background: var(--amber);
 }
 
 .fwSelected {
     border-radius: 5px;
-    background-color: #2563eb;
-    color: white;
+    background-color: var(--amber);
+    color: var(--bg0);
 }
 
 ::-webkit-scrollbar-track {
     background-color: transparent;
 }
 
-/* Thumb of the scrollbar */
 ::-webkit-scrollbar-thumb {
-    background: #2563eb;
+    background: var(--amber);
     border-radius: 10px;
 }
 
-/* Payloads categories colors */
 .category-tools {
-    background-color: rgba(34, 197, 94, 0.2);
-    /* 20% green */
-    color: #4ade80;
-    /* bright green */
+    background-color: rgba(153, 221, 187, 0.15);
+    color: var(--mint);
     border: none !important;
 }
 
 .category-advanced {
-    background-color: rgba(246, 92, 97, 0.2);
-    /* 20% red */
-    color: #fa8b96;
-    /* light red */
+    background-color: rgba(255, 136, 102, 0.15);
+    color: var(--coral);
 }
 
 .category-linux {
-    background-color: rgba(139, 92, 246, 0.2);
-    /* 20% purple */
-    color: #a78bfa;
-    /* light purple */
+    background-color: rgba(204, 153, 204, 0.15);
+    color: var(--lav);
     border: none !important;
 }
 
-/* Background Colors */
 .bg-gray-900 {
-    background-color: #111827;
+    background-color: var(--bg0);
 }
 
 .bg-gray-800 {
-    background-color: #1f2937;
+    background-color: var(--bg1);
 }
 
 .bg-gray-700 {
-    background-color: #374151;
+    background-color: var(--bg2);
 }
 
 .bg-gray-700\/60 {
-    background-color: rgba(55, 65, 81, 0.6);
+    background-color: rgba(38, 38, 44, 0.6);
 }
 
-/* 60% opacity */
 .bg-black\/50 {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-/* 50% opacity */
 .bg-white\/5 {
     background-color: rgba(255, 255, 255, 0.05);
 }
 
-/* 5% opacity */
 .bg-white\/10 {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* 10% opacity */
 .bg-yellow-600\/20 {
-    background-color: rgba(202, 138, 4, 0.2);
+    background-color: rgba(255, 153, 51, 0.18);
 }
 
-/* 20% opacity */
 .bg-blue-600 {
-    background-color: #2563eb;
+    background-color: var(--amber-btn);
 }
 
 .bg-red-600 {
-    background-color: #dc2626;
+    background-color: var(--red);
 }
 
 .bg-red-700 {
-    background-color: #901717;
+    background-color: var(--red-dark);
 }
 
 .bg-gray-50 {
-    background-color: #f9fafb;
+    background-color: #C9C9C9;
 }
 
-/* Text Colors */
 .text-white {
-    color: #ffffff;
+    color: #EDEDED;
 }
 
 .text-white\/70 {
     color: rgba(255, 255, 255, 0.7);
 }
 
-/* 70% opacity */
 .text-white\/80 {
     color: rgba(255, 255, 255, 0.8);
 }
 
-/* 80% opacity */
 .text-white\/90 {
     color: rgba(255, 255, 255, 0.9);
 }
 
-/* 90% opacity */
 .text-yellow-200 {
-    color: #fde68a;
+    color: var(--gold);
 }
 
 .text-yellow-200\/80 {
-    color: rgba(253, 230, 138, 0.8);
+    color: rgba(255, 204, 102, 0.8);
 }
 
-/* 80% opacity */
 .text-gray-600 {
-    color: #4b5563;
+    color: var(--dim);
 }
 
-/* For hover states */
 .text-blue-500 {
-    color: #3b82f6;
+    color: var(--amber);
 }
 
-
-/* Borders */
 .border {
     border-width: 1px;
     border-style: solid;
@@ -168,11 +168,11 @@ input[type="radio"]:checked {
 }
 
 .border-blue-500 {
-    border-color: #3b82f6;
+    border-color: var(--amber);
 }
 
 .border-yellow-500\/50 {
-    border-color: rgba(234, 179, 8, 0.5);
+    border-color: rgba(255, 204, 102, 0.4);
 }
 
 .border-transparent {
@@ -180,21 +180,19 @@ input[type="radio"]:checked {
 }
 
 .border-gray-200 {
-    border-color: #e5e7eb;
+    border-color: #3A3A42;
 }
 
 .border-gray-700 {
-    border-color: #374151;
+    border-color: var(--bg2);
 }
 
-
-/* Hover States */
 .hover\:bg-gray-700:hover {
-    background-color: #374151;
+    background-color: var(--bg2);
 }
 
 .hover\:text-white:hover {
-    color: #ffffff;
+    color: #EDEDED;
 }
 
 .hover\:bg-white\/10:hover {
@@ -202,62 +200,54 @@ input[type="radio"]:checked {
 }
 
 .hover\:bg-blue-700:hover {
-    background-color: #1d4ed8;
+    background-color: var(--amber-btn-hover);
 }
 
 .hover\:text-gray-600:hover {
-    color: #4b5563;
+    color: var(--dim);
 }
 
 .hover\:border-gray-300:hover {
-    border-color: #d1d5db;
+    border-color: #3A3A42;
 }
 
 .hover\:bg-blue-500\/40:hover {
-    background-color: rgba(59, 130, 246, 0.4);
+    background-color: rgba(255, 153, 51, 0.35);
 }
 
-/* 40% opacity */
-
-
-/* Focus States */
 .focus-within\:border-blue-500:focus-within {
-    border-color: #3b82f6;
+    border-color: var(--amber);
 }
 
 .focus\:ring-2:focus {
-    box-shadow: 0 0 0 2px #60a5fa;
+    box-shadow: 0 0 0 2px var(--gold);
 }
 
-/* Ring effect */
 .focus\:ring-blue-400:focus {
-    box-shadow: 0 0 0 2px #60a5fa;
+    box-shadow: 0 0 0 2px var(--gold);
 }
 
-/* Accent Color for Radio/Checkbox */
 .accent-blue-500 {
-    accent-color: #3b82f6;
+    accent-color: var(--amber);
 }
+
 .tabs ul {
-    border-color: #374151;
+    border-color: var(--bg2);
 }
 
 .tabs button {
     font-family: sans-serif;
     border-color: transparent;
-    /* Default for inactive tabs */
-    color: rgba(255, 255, 255, 0.8);
-    /* Default text color for inactive tabs */
+    color: var(--ink);
 }
 
 .tabs button[aria-selected="true"] {
-    border-color: #3b82f6;
-    color: #3b82f6;
-    border-bottom: 1px solid #3b82f6;
+    border-color: var(--amber);
+    color: var(--amber);
+    border-bottom: 1px solid var(--amber);
 }
 
 .tabs button:not([aria-selected="true"]):hover {
-    color: #4b5563;
-    border-color: #d1d5db;
-    /* Approximation for gray-300 */
+    color: var(--dim);
+    border-color: #3A3A42;
 }

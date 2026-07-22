@@ -116,12 +116,6 @@ function applyLanguage(lang) {
     }
     updateText(document.getElementById('showAdvancedPayloads'), 'showAdvancedPayloads');
     updateText(document.getElementById('optionsHeader'), 'optionsHeader');
-    updateText(document.getElementById('theme'), 'theme');
-    updateText(document.getElementById('defaultTheme'), 'defaultTheme');
-    updateText(document.getElementById('compactTheme'), 'compactTheme');
-    updateText(document.getElementById('vibrantColor'), 'vibrantColor');
-    updateText(document.getElementById('colorWord'), 'colorWord');
-    updateText(document.getElementById('defaultColor'), 'defaultTheme');
     updateText(document.getElementById('modularLapse'), 'modularLapse');
     updateText(document.getElementById('bundleLapse'), 'bundleLapse');
     updateText(document.getElementById('autoJbRetryText'), 'autoJbRetryText');
