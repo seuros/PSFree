@@ -26,7 +26,6 @@ var autoJbInterval;
 var lastScrollY = 0;
 var lastSection = "initial";
 var devMode = false; // Dev mode for PC debugging
-var rtlLangs = ["ar", "fa"];
 var ui = {
   mainContainer: document.querySelector('.mainContainer'),
   // Sections
@@ -74,9 +73,7 @@ var ui = {
   bareboneJbBtn: document.getElementById('bareboneJB'),
   bareboneJBInput: document.getElementById('bareboneJBInput'),
   exploitChainTitle: document.getElementById('exploitChainTitle'),
-  userlandOnlyOnJB67x: document.getElementById('userlandOnlyOnJB67xInput'),
-  // Settings elements
-  langRadios: document.querySelectorAll('#chooselang input[name="language"]')
+  userlandOnlyOnJB67x: document.getElementById('userlandOnlyOnJB67xInput')
 };
 
 // payloads tabs
@@ -796,7 +793,7 @@ function cleanUp() {
   }
 
   // Wipe individual refs
-  var toDestroy = ['settingsBtn', 'aboutBtn', 'initialScreen', 'chooseGoldHEN', 'psLogoContainer', 'clickToStartText', 'ps4FwStatus', 'stopAutoJbBtn', 'payloadsSection', 'payloadsList', 'payloadsSectionTitle', 'ps4IpInput', 'ps4FwSelect', 'scanGoldHENPayLoader', 'shutdownServerBtn', 'aboutPopup', 'settingsPopup', 'chooseFanThreshold', 'autoJbRetry', 'chooselang', 'toolsSection', 'toolsTab', 'linuxSection', 'linuxTab', 'advancedPayloadsSection', 'advancedPayloadsTab', 'advancedPayloadsContainer', 'advancedPayloadsInput', 'customPayloadsSection', 'customPayloadsTab', 'customPayloadInput', 'sendCustomPayloadBtn', 'exploitRunBtn', 'secondHostBtn', 'aboutPopupOverlay', 'settingsPopupOverlay', 'chooseFanThresholdOverlay', 'exploitChainTitle'];
+  var toDestroy = ['settingsBtn', 'aboutBtn', 'initialScreen', 'chooseGoldHEN', 'psLogoContainer', 'clickToStartText', 'ps4FwStatus', 'stopAutoJbBtn', 'payloadsSection', 'payloadsList', 'payloadsSectionTitle', 'ps4IpInput', 'ps4FwSelect', 'scanGoldHENPayLoader', 'shutdownServerBtn', 'aboutPopup', 'settingsPopup', 'chooseFanThreshold', 'autoJbRetry', 'toolsSection', 'toolsTab', 'linuxSection', 'linuxTab', 'advancedPayloadsSection', 'advancedPayloadsTab', 'advancedPayloadsContainer', 'advancedPayloadsInput', 'customPayloadsSection', 'customPayloadsTab', 'customPayloadInput', 'sendCustomPayloadBtn', 'exploitRunBtn', 'secondHostBtn', 'aboutPopupOverlay', 'settingsPopupOverlay', 'chooseFanThresholdOverlay', 'exploitChainTitle'];
   toDestroy.forEach(function (key) {
     if (ui[key]) {
       if (typeof ui[key].remove === 'function') ui[key].remove();

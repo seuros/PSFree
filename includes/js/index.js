@@ -16,7 +16,6 @@ var autoJbInterval;
 let lastScrollY = 0;
 let lastSection = "initial";
 var devMode = false;   // Dev mode for PC debugging
-var rtlLangs = ["ar", "fa"];
 const ui = {
   mainContainer: document.querySelector('.mainContainer'),
 
@@ -69,9 +68,6 @@ const ui = {
   bareboneJBInput: document.getElementById('bareboneJBInput'),
   exploitChainTitle: document.getElementById('exploitChainTitle'),
   userlandOnlyOnJB67x: document.getElementById('userlandOnlyOnJB67xInput'),
-
-  // Settings elements
-  langRadios: document.querySelectorAll('#chooselang input[name="language"]'),
 };
 
 // payloads tabs
@@ -661,7 +657,7 @@ function cleanUp() {
     'psLogoContainer', 'clickToStartText',
     'ps4FwStatus', 'stopAutoJbBtn', 'payloadsSection', 'payloadsList', 'payloadsSectionTitle',
     'ps4IpInput', 'ps4FwSelect', 'scanGoldHENPayLoader', 'shutdownServerBtn',
-    'aboutPopup', 'settingsPopup', 'chooseFanThreshold', 'autoJbRetry', 'chooselang',
+    'aboutPopup', 'settingsPopup', 'chooseFanThreshold', 'autoJbRetry',
     'toolsSection', 'toolsTab', 'linuxSection', 'linuxTab', 'advancedPayloadsSection', 'advancedPayloadsTab',
     'advancedPayloadsContainer', 'advancedPayloadsInput', 'customPayloadsSection', 'customPayloadsTab', 'customPayloadInput',
     'sendCustomPayloadBtn', 'exploitRunBtn', 'secondHostBtn', 'aboutPopupOverlay', 'settingsPopupOverlay', 'chooseFanThresholdOverlay',

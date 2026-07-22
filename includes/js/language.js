@@ -14,13 +14,6 @@ function loadLanguage() {
     });
 }
 
-function saveLanguage(language) {
-    if (!language) return;
-    localStorage.setItem('language', language);
-    user.currentLanguage = language;
-    initLanguage();
-};
-
 // Update UI langauge
 function applyLanguage(lang) {
     user.currentLanguage = lang;
@@ -58,7 +51,7 @@ function applyLanguage(lang) {
 
     // Document Properties
     document.title = strings.title || "PSFree Enhanced";
-    document.dir = rtlLangs.includes(user.currentLanguage) ? 'rtl' : 'ltr';
+    document.dir = 'ltr';
     ui.consoleElement.dir = document.dir;
     document.lang = user.currentLanguage;
 
@@ -113,7 +106,6 @@ function applyLanguage(lang) {
     // Settings Popup 
     if (ui.settingsPopup) {
         updateText(ui.settingsPopup.querySelector('h2'), 'settingsPsfreeHeader');
-        updateText(ui.settingsPopup.querySelector('#chooselang h3'), 'languageHeader');
         updateText(ui.settingsPopup.querySelector('#close-settings'), 'closeButton');
         updateText(ui.settingsPopup.querySelector('#ghVer'), 'ghVer');
         var ghOtherVer = ui.settingsPopup.querySelector('#chooseGoldHEN summary');
@@ -153,6 +145,5 @@ function applyLanguage(lang) {
     updateText(ui.advancedPayloadsTab, 'advanced');
     updateText(ui.consoleElement.querySelector('center'), 'waitingUserInput');
 
-    // Change direction of 'Default' option text for the fan threshold panel
-    document.getElementById('defaultTempDiv').style.float = rtlLangs.includes(user.currentLanguage) ? "left" : "right";
+    document.getElementById('defaultTempDiv').style.float = "right";
 }
