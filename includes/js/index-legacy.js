@@ -6,7 +6,7 @@ function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 // @ts-nocheck
 var user = {
-  currentLanguage: localStorage.getItem('language') || 'en',
+  currentLanguage: 'en',
   currentJbFlavor: localStorage.getItem('jailbreakFlavor') || 'GoldHEN',
   platform: "PS4",
   // PS4/PC/Mobile etc..

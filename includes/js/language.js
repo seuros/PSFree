@@ -1,5 +1,6 @@
 function loadLanguage() {
-    document.querySelector(`input[name="language"][value="${user.currentLanguage}"]`).checked = true;
+    const langRadio = document.querySelector(`input[name="language"][value="${user.currentLanguage}"]`);
+    if (langRadio) langRadio.checked = true;
     const langScript = document.getElementById("langScript");
     if (langScript) langScript.remove();
     // load language file
