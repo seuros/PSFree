@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# v1
+# v2 - conn green-phosphor skin, english-only
 # Generated on 2026-06-29 19:17:15.006611
 
 CACHE:
@@ -12,15 +12,8 @@ includes/js/language.js
 includes/js/events.js
 includes/js/checkFw.js
 includes/js/HENs.js
-includes/js/design.js
 includes/js/autoJbRetry.js
-includes/js/languages/ar.js
 includes/js/languages/en.js
-includes/js/languages/tr.js
-includes/js/languages/zh-cn.js
-includes/js/languages/fa.js
-includes/js/languages/ru.js
-includes/js/languages/es.js
 includes/js/exploits/672entrypoint.js
 includes/js/exploits/672kexploit.js
 includes/js/exploits/bundle.js
@@ -68,10 +61,8 @@ includes/payloads/Linux/linux-32mb.elf
 includes/payloads/Linux/linux-4096mb.elf
 includes/payloads/Linux/linux-512mb.elf
 includes/payloads/Linux/linux-64mb.elf
-includes/css/layouts/compact.css
 includes/css/layouts/index.css
 includes/css/colors/default.css
-includes/css/colors/vibrant.css
 src/alert.mjs
 src/config.mjs
 src/lapse.mjs
