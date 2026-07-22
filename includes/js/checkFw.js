@@ -4,7 +4,7 @@ function CheckFW() {
     var fwVersion = navigator.userAgent.substring(navigator.userAgent.indexOf('5.0 (') + 19, navigator.userAgent.indexOf(') Apple')).replace("layStation 4/", "");
     var elementsToHide = [
         'ps-logo-container', 'choosejb-initial', 'exploit-main-screen', 'scrollDown',
-        'click-to-start-text', 'advancedPayloads', 'chooseExploitChain'
+        'click-to-start-text'
     ];
 
     if (ps4Regex.test(userAgent)) {
@@ -21,8 +21,6 @@ function CheckFW() {
                 document.getElementById("userlandOnlyOnJB67x").classList.toggle('hidden');
         } else {
             ui.ps4FwStatus.style.color = 'orange';
-            document.getElementById('layouts').style.display = "none";
-            document.getElementById('theme').style.display = "none";
             if (isHttps()) {
                 ui.secondHostBtn[0].style.display = "block";
                 terminateCache(); // Dont cache in case no webkit and is https
@@ -31,7 +29,6 @@ function CheckFW() {
                 const toRemove = ['exploit-main-screen', 'scrollDown', 'advancedPayloads'];
                 elementsToHide = elementsToHide.filter(e => !toRemove.includes(e));
                 elementsToHide.push('initial-screen', 'exploit-status-panel', 'henSelection', 'autoJbContainer', 'successRate', 'bareboneJBOption', 'chooseExploitChain');
-                if (fwVersion < 6.70) elementsToHide.push('layouts', 'theme'); // Incompatible with Compact design..
                 document.getElementById('exploitContainer').style.display = "block";
 
                 // Sizing the payload's section
@@ -70,7 +67,7 @@ function CheckFW() {
 
             const toRemove = ['exploit-main-screen', 'scrollDown', 'advancedPayloads', 'custom-tab'];
             elementsToHide = elementsToHide.filter(e => !toRemove.includes(e));
-            elementsToHide.push('initial-screen', 'henSelection', 'autoJbContainer', 'successRate', 'bareboneJBOption', 'chooseExploitChain', 'layouts', 'theme');
+            elementsToHide.push('initial-screen', 'henSelection', 'autoJbContainer', 'successRate', 'bareboneJBOption', 'chooseExploitChain');
 
             // Sizing the payload's section
             // Full screen for phones, centered for desktop
@@ -79,8 +76,6 @@ function CheckFW() {
                 elementsToHide.push('exploit-status-panel');
                 document.getElementById('exploitContainer').style.display = "block";
                 ui.exploitScreen.style.padding = "0";
-                document.getElementById('layouts').style.display = "none";
-                document.getElementById('theme').style.display = "none";
             }
             ui.payloadsSection.style.width = "100%";
             ui.payloadsSection.style.margin = "auto";
@@ -88,8 +83,6 @@ function CheckFW() {
             document.getElementById('header2').classList.remove('hidden', 'left-6');
             document.getElementById('header2').classList.add('flex', 'inherit');
             document.getElementById('header2').querySelectorAll('button').forEach((item) => item.classList.add('border', 'border-white/20', 'rounded-xl'))
-        }else{
-            elementsToHide.push('theme', 'layout');
         }
         ui.ps4FwStatus.style.color = 'red';
         document.getElementById('PS4FW').style.width = "100%";
