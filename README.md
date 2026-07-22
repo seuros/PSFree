@@ -1,61 +1,45 @@
-# PSFree Enhanced
-based on PSFree version 1.5.1 by Al-Azif and
-includes multiple implementations by Feyzee61 
+# PSFree
 
-PSFree is a collection of exploits for the PS4 console. The main focus of the repo is for the PS4.
+PS4 WebKit + Lapse kernel exploit host. Fork of
+[ArabPixel/PSFree-Enhanced](https://github.com/ArabPixel/PSFree-Enhanced),
+itself based on [Al-Azif/psfree-lapse](https://github.com/Al-Azif/psfree-lapse) 1.5.1.
 
-## Features
+> **Not for human consumption.** This is a stripped, minimalistic dev fork —
+> personal tooling, English-only, one fixed skin, no switchers. If you want the
+> full featured host (languages, themes, layouts, external mirror), use the
+> upstreams above. No support, no releases, no promises.
 
-- **Auto-detection:** Automatically detects console type and firmware version (via `src/config.mjs`).
-- **WebKit Exploit (PSFree):** Entry point via the console's web browser.
-- **Kernel Exploit (Lapse):** Escalates privileges to kernel level.
-- **Payload Loader:** After successful kernel exploitation listens for a payload on port 9020.
+## Fork deltas
 
-## Additional features
-- Language switcher
-- HEN flavor selector
-- GoldHEN version selector
-- Descriptive payload selection
-- Unsuported payload loading protection
-- Load payloads with GoldHEN's PayLoader through a mirrored [http host](http://psfree-enhanced.free.nf/)
-- Offers more features when hosted locally on a PC or a PS4 using [PS4-Websrv](https://github.com/ArabPixel/ps4-websrv)
-  - Send payloads from any smart device to the PS4 
-  - Scans the network to find the PS4
-- Themes
-- Selectable exploit chain (7.00 - 9.60)
-- Barebone jailbreak experience
-- Using Babel for older firmwares
-- Up to date
+- English-only; language switcher and other locales removed.
+- Single fixed skin: `conn` (meridian) Atari green-phosphor terminal
+  (monospace, boxy frames, CRT scanlines).
+- Theme/color/layout switcher system removed (`design.js` gone).
+- Settings trimmed to the functional selectors (GoldHEN version, exploit chain).
 
-## Supported by this Repository
+## Chain
 
-This table indicates firmware versions for which the _current version_ of this repository provides a functional and tested exploit chain.
+- **WebKit (PSFree)** — arbitrary R/W in the browser (`src/psfree.mjs`, `src/module/`).
+- **Kernel (Lapse)** — privilege escalation (`src/lapse.mjs`, `src/kpatch/`).
+- **Payload loader** — listens on port 9020 after kernel exploitation.
 
-|  #            | Userland    |Kernel   |GoldHEN's PayLoader
-| :------------ | :-------- | :-------- | :--------
-| PlayStation 4 | 6.70-9.60 | 6.70-9.60 | 5.05 - latest
-* 4.74 was tested and the website functions as intended, however, anything older than 5.05 has no GoldHEN support to load payloads with.
+## Support
 
-## TODO List
+| Console | Userland | Kernel | GoldHEN PayLoader |
+| :------ | :------- | :----- | :---------------- |
+| PS4     | 6.70–9.60 | 6.70–9.60 | 5.05 – latest |
 
-- [X] ~~Blackscreen/Save issue with certain games~~ Issue is patched post-exploit
-  - [ ] Determine root cause and fix more directly
-- [ ] `lapse.mjs`: Just set the bits for JIT privs
-- [ ] `view.mjs`: Assumes PS4, support PS5 as well
-- [ ]  Support lower firmwares by adding other exploits
+Below 5.05 has no GoldHEN payload support.
 
-## Contribution
-You can :
-- look at the [languages folder](https://github.com/ArabPixel/PSFree-Enhanced/tree/main/includes/js/languages) and PR your language!
--  improve the host by modefying, updating or adding new features!
-## Copyright and Authors:
+## License
 
-AGPL-3.0-or-later (see [LICENSE](LICENSE)). Part of this repo belongs to the group `anonymous`. We refer to anonymous contributors as "anonymous" as well.
+AGPL-3.0-or-later (see [LICENSE](LICENSE)). Parts credited to the group `anonymous`.
 
-## Credits:
+## Credits
 
-- anonymous for PS4 firmware kernel dumps
-- Check the appropriate files for any **extra** contributors. Unless otherwise stated, everything here can also be credited to us.
-- Al-Azif for the base exploit
-- Nazky for some code inspiration.
-- Feyzee61 for the second PSFree lapse and 6.7x exploit implementations.
+- Al-Azif — base exploit
+- Feyzee61 — second PSFree Lapse and 6.7x implementations
+- Nazky — code inspiration
+- ChendoChap (pOOBs4) — kernel patches / payload loader
+- ArabPixel — PSFree-Enhanced (this fork's upstream)
+- anonymous — PS4 firmware kernel dumps
