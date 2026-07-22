@@ -1,5 +1,4 @@
 function loadTheme() {
-    ui.initialScreen.classList.remove('compact');
     const radioElement = document.querySelector('input[name="theme"][value="index"]');
     if (radioElement) radioElement.checked = true;
 }

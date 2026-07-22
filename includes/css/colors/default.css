@@ -25,10 +25,6 @@ body {
     fill: var(--amber) !important;
 }
 
-#initial-screen.compact {
-    background-color: var(--bg1) !important;
-}
-
 input[type="radio"]:checked {
     border: none;
     background: var(--amber);

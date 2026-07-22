@@ -126,9 +126,7 @@ ui.stopAutoJbBtn.addEventListener('click', () => {
     clearInterval(autoJbInterval);
     sessionStorage.setItem('autoJbRetry', false);
     ui.stopAutoJbBtn.classList.toggle('hidden');
-    if (localStorage.getItem("theme") == "compact") {
-        ui.clickToStartText.textContent = window.lang.title || "PSFree Enhanced";
-    } else ui.clickToStartText.textContent = window.lang.clickToStart;
+    ui.clickToStartText.textContent = window.lang.clickToStart;
 });
 
 // turn off auto settings tab clicker after the user clicks close for the first time.

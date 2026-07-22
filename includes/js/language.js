@@ -75,9 +75,7 @@ function applyLanguage(lang) {
 
     // Main Screen Elements
     updateTitle(ui.settingsBtn, 'settingsBtnTitle');
-    if (localStorage.getItem('theme') == "compact") {
-        updateText(ui.clickToStartText, 'title');
-    } else updateText(ui.clickToStartText, 'clickToStart');
+    updateText(ui.clickToStartText, 'clickToStart');
 
     updateText(document.querySelector('#choosejb-initial h3'), 'chooseHEN');
 
