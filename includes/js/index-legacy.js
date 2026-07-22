@@ -497,8 +497,6 @@ function _loadSettings() {
           _context7.n = 1;
           return initLanguage();
         case 1:
-          loadTheme();
-          loadColor();
           renderPayloads(payloadsList);
           loadAdvancedPayloads();
           loadLastTab();

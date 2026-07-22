@@ -340,8 +340,6 @@ async function loadSettings() {
     CheckFW();
     loadJbFlavor();
     await initLanguage();
-    loadTheme();
-    loadColor();
     renderPayloads(payloadsList);
     loadAdvancedPayloads();
     loadLastTab();
