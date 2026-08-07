@@ -13,7 +13,7 @@ const payloadsList = [
     name: "BinLoader",
     author: "PSFree Exploit",
     description: "Launches BinLoader server on port 9020 to send bin payloads.",
-    specificFW: "7.00 - 9.60",
+    specificFW: "6.00 - 11.02",
     category: "tools",
     funcName: "load_BinLoader"
   },

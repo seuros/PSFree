@@ -39,7 +39,7 @@ function Loadpayloadlocal(PLfile, name) { //Loading Payload via Payload Param.
         // If its elfldr, change to .bin 
         if (name == "ElfLoader") PLfile = "./includes/payloads/Bins/elfldr.bin";
 
-        if (user.ps4Fw >= 6.70 && user.ps4Fw <= 9.60 && user.platform == "PS4") {
+        if (isSupportedFw(user.ps4Fw) && user.platform == "PS4") {
             if (!isHttps()) {
                 if (confirm(window.lang.disabledBinloader)) {
                     Loadpayloadonline(PLfile);
@@ -125,7 +125,7 @@ function load_ModuleDumper(name) {
 // Tools
 
 function load_BinLoader(name) {
-    if (user.ps4Fw >= 7.00 && user.ps4Fw <= 9.60) {
+    if (isSupportedFw(user.ps4Fw)) {
         Loadpayloadonline(undefined);
     } else alert(window.lang.unsupportedFirmware + user.ps4Fw);
 }

@@ -63,7 +63,7 @@ function applyLanguage(lang) {
         if (strings.notPs4 && strings.notPs4.length > 0) {
             ui.ps4FwStatus.textContent = strings.notPs4 + user.platform;
         }
-    } else if (ps4Fw <= 9.60 && ps4Fw >= 6.70) {
+    } else if (isSupportedFw(ps4Fw)) {
         if (strings.ps4FwCompatible && strings.ps4FwCompatible.length > 0) {
             ui.ps4FwStatus.textContent = strings.ps4FwCompatible.replace('{ps4fw}', ps4Fw);
         }

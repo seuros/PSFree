@@ -8,7 +8,7 @@ function CheckFW() {
     ];
 
     if (ps4Regex.test(userAgent)) {
-        if (fwVersion >= webKitMin && fwVersion <= webKitMax) {
+        if (isSupportedFw(fwVersion)) {
             ui.ps4FwStatus.style.color = 'green';
 
             // Highlight firmware in about popup
@@ -125,7 +125,7 @@ function updateExploitChainVisibility(fwVersion) {
     if (isNaN(fwNum)) return;
 
     // 6.00 - 11.02 sees cssfontface lapse, 9.00 - 11.02 sees cssfontface netctrl
-    var showCssFontFaceLapse = (fwNum >= webKitMin && fwNum <= webKitMax);
+    var showCssFontFaceLapse = isSupportedFw(fwNum);
     var showCssFontFaceNetctrl = (fwNum >= 9.00 && fwNum <= webKitMax);
     toggleVisibility('cssFontFaceNetCtrlExp', showCssFontFaceNetctrl);
     toggleVisibility('cssFontFaceLapseExp', showCssFontFaceLapse);

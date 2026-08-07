@@ -18,6 +18,10 @@ let lastSection = "initial";
 var devMode = false;   // Dev mode for PC debugging
 var webKitMin = 6.00;
 var webKitMax = 11.02;
+function isSupportedFw(fw) {
+  var fwNum = parseFloat(fw);
+  return !isNaN(fwNum) && fwNum >= webKitMin && fwNum <= webKitMax;
+}
 const ui = {
   mainContainer: document.querySelector('.mainContainer'),
 
