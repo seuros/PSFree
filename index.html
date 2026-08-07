@@ -361,13 +361,21 @@
             <div id="chooseExploitChain" class="mb-4">
                 <h3 class="text-lg font-semibold mb-2" id="exploitChainTitle">Exploit Chain</h3>
                 <div class="radio-group space-y-2 flex flex-wrap">
-                    <label class="flex items-center text-white/80">
-                        <input type="radio" name="exploitChain" value="true" onchange="lapseChain(this.value);">
+                    <label id="modularLapseExp" class="flex items-center text-white/80">
+                        <input type="radio" name="exploitChain" value="0" onchange="exploitChain(this.value);">
                         <p id="modularLapse">Default's PSFree Lapse</p>
                     </label>
-                    <label class="flex items-center text-white/80">
-                        <input type="radio" name="exploitChain" value="false" onchange="lapseChain(this.value);">
+                    <label id="bundleLapseExp" class="flex items-center text-white/80">
+                        <input type="radio" name="exploitChain" value="1" onchange="exploitChain(this.value);">
                         <p id="bundleLapse">Feyzee61's PSFree Lapse</p>
+                    </label>
+                    <label id="cssFontFaceNetCtrlExp" class="hidden flex items-center text-white/80">
+                        <input type="radio" name="exploitChain" value="3" onchange="exploitChain(this.value);">
+                        <p id="cssFontFaceNetCtrl">CSSFontFace + NetCtrl</p>
+                    </label>
+                    <label id="cssFontFaceLapseExp" class="hidden flex items-center text-white/80">
+                        <input type="radio" name="exploitChain" value="4" onchange="exploitChain(this.value);">
+                        <p id="cssFontFaceLapse">CSSFontFace + Lapse</p>
                     </label>
                 </div>
             </div>

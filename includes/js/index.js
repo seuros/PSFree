@@ -9,13 +9,15 @@ var user = {
   ps4Fw: localStorage.getItem('ps4Fw'),  // Used for the case of sending the payload over the network
   clearLog: true,
   bareboneJB: localStorage.getItem('bareboneJB') === 'true',
-  lapseChain: localStorage.getItem('lapseChain') === "true", //Exploit chain method
+  exploitChain: parseFloat(localStorage.getItem('exploitChain')), //Exploit chain method
   blockJailbreak: false,  // Prevent double jailbreak execution
 }
 var autoJbInterval;
 let lastScrollY = 0;
 let lastSection = "initial";
 var devMode = false;   // Dev mode for PC debugging
+var webKitMin = 6.00;
+var webKitMax = 11.02;
 const ui = {
   mainContainer: document.querySelector('.mainContainer'),
 
@@ -174,9 +176,18 @@ async function jailbreak() {
       }
       badHoistJailbreak();
       break;
-    case (fwVersion >= 7.00 && fwVersion <= 9.60):
-      psfreeLapse();
-      break;
+    default:
+      // checkFw.js already guarantees exploitChain is valid for the current firmware
+      switch (user.exploitChain) {
+        case 0: // modular lapse
+        case 1: // bundle lapse
+          psfreeLapse();
+          break;
+        case 3: // cssfontface netctrl
+        case 4: // cssfontface lapse
+          cssFontFaceJailbreak();
+          break;
+      }
   }
   // add one jailbreak attempt to the stats
   updateJbStats(1, 0);
@@ -184,7 +195,7 @@ async function jailbreak() {
 
 async function psfreeLapse() {
   // Exploit chain method check
-  if (user.lapseChain) {
+  if (user.exploitChain === 0) {
     try {
       await loadScript('./src/alert.mjs');
     } catch (e) {
@@ -244,6 +255,12 @@ async function badHoistJailbreak() {
   } else {
     log("\nAn error occured during Kernel Exploit\nPlease restart console and try again...", "red");
   }
+}
+
+async function cssFontFaceJailbreak() {
+  log("Loading ufm42's CSSFontFace exploit chain implementation..");
+  await getScript('./src/cssfontface/main.js');
+  doCssFontFaceJailbreak();
 }
 
 function jailbreakSuccess() {
@@ -345,7 +362,7 @@ async function loadSettings() {
     loadLastTab();
     autoJailbreak();
     updateBareboneJB();
-    loadLapseChain();
+    loadExploitChain();
     userlandOnlyOnJB67x();
   } catch (e) {
     alert("Error in loadSettings: " + e.message);
@@ -695,12 +712,13 @@ function setBareboneJB(checked) {
 }
 
 // save exploit chain method to localStorage
-function lapseChain(value) {
-  localStorage.setItem('lapseChain', value);
-  user.lapseChain = value == "true";
+function exploitChain(value) {
+  var num = parseFloat(value);
+  localStorage.setItem('exploitChain', num);
+  user.exploitChain = num;
 }
 // load option when loading the page
-function loadLapseChain() {
+function loadExploitChain() {
   var chainElement = document.getElementById('chooseExploitChain');
 
   if (user.ps4Fw >= 6.70 && user.ps4Fw <= 6.72) {
@@ -711,7 +729,7 @@ function loadLapseChain() {
   }
 
   // Protective check
-  var radioElement = document.querySelector(`input[name="exploitChain"][value="${user.lapseChain}"]`);
+  var radioElement = document.querySelector(`input[name="exploitChain"][value="${user.exploitChain}"]`);
   if (radioElement) {
     radioElement.checked = true;
   }

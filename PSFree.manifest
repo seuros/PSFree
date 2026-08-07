@@ -1,7 +1,8 @@
 CACHE MANIFEST
-# content 51c4e2a55c9df900
+# content 99bb618a387ea1ce
 
 CACHE:
+.mailmap
 exploit.html
 includes/css/colors/default.css
 includes/css/layouts/index.css
@@ -58,6 +59,31 @@ includes/payloads/payloads.js
 index.html
 src/alert.mjs
 src/config.mjs
+src/cssfontface/lapse.js
+src/cssfontface/loader.js
+src/cssfontface/main.js
+src/cssfontface/misc.js
+src/cssfontface/netctrl.js
+src/cssfontface/ps4/constants.js
+src/cssfontface/ps4/kernel.js
+src/cssfontface/ps4/patches/1000.bin
+src/cssfontface/ps4/patches/1050.bin
+src/cssfontface/ps4/patches/1100.bin
+src/cssfontface/ps4/patches/1102.bin
+src/cssfontface/ps4/patches/600.bin
+src/cssfontface/ps4/patches/620.bin
+src/cssfontface/ps4/patches/650.bin
+src/cssfontface/ps4/patches/670.bin
+src/cssfontface/ps4/patches/700.bin
+src/cssfontface/ps4/patches/750.bin
+src/cssfontface/ps4/patches/800.bin
+src/cssfontface/ps4/patches/850.bin
+src/cssfontface/ps4/patches/900.bin
+src/cssfontface/ps4/patches/903.bin
+src/cssfontface/ps4/patches/950.bin
+src/cssfontface/ps4/userland.js
+src/cssfontface/worker.js
+src/cssfontface/workers.js
 src/fonts/FONTS.LICENSE
 src/fonts/LiberationMono-Regular.ttf
 src/kpatch/700.bin

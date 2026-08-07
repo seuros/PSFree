@@ -112,6 +112,8 @@ function applyLanguage(lang) {
     updateText(document.getElementById('optionsHeader'), 'optionsHeader');
     updateText(document.getElementById('modularLapse'), 'modularLapse');
     updateText(document.getElementById('bundleLapse'), 'bundleLapse');
+    updateText(document.getElementById('cssFontFaceNetCtrl'), 'cssFontFaceNetCtrl');
+    updateText(document.getElementById('cssFontFaceLapse'), 'cssFontFaceLapse');
     updateText(document.getElementById('autoJbRetryText'), 'autoJbRetryText');
     updateText(ui.exploitChainTitle, 'exploitChainTitle');
     updateText(document.getElementById('userlandOnlyOnJB67xText'), 'userlandOnlyOnJB67x')

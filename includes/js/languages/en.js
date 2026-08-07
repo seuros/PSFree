@@ -54,5 +54,7 @@ window.lang = {
     "exploitChainTitle": "Exploit Chain",
     "modularLapse": "Default's PSFree Lapse",
     "bundleLapse": "Feyzee61's PSFree Lapse",
+    "cssFontFaceNetCtrl": "CSSFontFace + NetCtrl",
+    "cssFontFaceLapse": "CSSFontFace + Lapse",
     "userlandOnlyOnJB67x":  "Load userland exploit only on Jailbreak"
 }

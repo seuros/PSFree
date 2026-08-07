@@ -8,7 +8,7 @@ function CheckFW() {
     ];
 
     if (ps4Regex.test(userAgent)) {
-        if (fwVersion >= 6.70 && fwVersion <= 9.60) {
+        if (fwVersion >= webKitMin && fwVersion <= webKitMax) {
             ui.ps4FwStatus.style.color = 'green';
 
             // Highlight firmware in about popup
@@ -19,6 +19,9 @@ function CheckFW() {
             // show "load userland exploit only on jailbreak" option
             if (fwVersion >= 6.70 && fwVersion <= 6.72)
                 document.getElementById("userlandOnlyOnJB67x").classList.toggle('hidden');
+
+            updateExploitChainVisibility(fwVersion);
+            firstTimeExploitChain(fwVersion);
         } else {
             ui.ps4FwStatus.style.color = 'orange';
             if (isHttps()) {
@@ -96,4 +99,39 @@ function CheckFW() {
             });
         }
     }
+}
+
+function toggleVisibility(id, show) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.classList.toggle('hidden', !show);
+}
+
+// Pick a sane default exploit chain the first time a given browser hits the page
+function firstTimeExploitChain(fwVersion) {
+    if (localStorage.getItem('exploitChain') != null) return;
+    var fwNum = parseFloat(fwVersion);
+    var chain = (fwNum >= 9.00) ? 3 : 4; // NetCtrl if available, else CSSFontFace Lapse
+    if (fwNum >= 7.00 && fwNum <= 9.60) {
+        chain = 1; // Feyzee61's PSFree Lapse (bundle)
+    }
+    exploitChain(chain);
+    loadExploitChain();
+}
+
+// Show only the exploit chain options valid for this firmware
+function updateExploitChainVisibility(fwVersion) {
+    var fwNum = parseFloat(fwVersion);
+    if (isNaN(fwNum)) return;
+
+    // 6.00 - 11.02 sees cssfontface lapse, 9.00 - 11.02 sees cssfontface netctrl
+    var showCssFontFaceLapse = (fwNum >= webKitMin && fwNum <= webKitMax);
+    var showCssFontFaceNetctrl = (fwNum >= 9.00 && fwNum <= webKitMax);
+    toggleVisibility('cssFontFaceNetCtrlExp', showCssFontFaceNetctrl);
+    toggleVisibility('cssFontFaceLapseExp', showCssFontFaceLapse);
+
+    // 7.00 - 9.60 sees modular and bundle psfree lapse
+    var showPsfreeLapse = (fwNum >= 7.00 && fwNum <= 9.60);
+    toggleVisibility('modularLapseExp', showPsfreeLapse);
+    toggleVisibility('bundleLapseExp', showPsfreeLapse);
 }
