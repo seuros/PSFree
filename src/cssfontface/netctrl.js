@@ -590,6 +590,10 @@ function leak_kqueue() {
       logger.debug(`Leaked kqueue after ${i} iterations !!`);
       leaked = true;
       break;
+    } else if (i < 8 || i === NUM_LEAK_KQUEUE - 1) {
+      // TEMP DEBUG (jailstation): dump what we actually see at offset 8
+      // so we can tell if 0x1430000 is just wrong for this FW build.
+      logger.debug(`[debug] iter ${i}: kq_hdr = ${kq_hdr}`);
     }
 
     if (fn.close.invoke(kq) === -1) {
