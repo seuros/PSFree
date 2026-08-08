@@ -557,7 +557,7 @@ async function ucred_triple_free() {
         throw err;
       }
 
-      logger.info(`[${i + 1}/${NUM_ATTEMPT}] ${err.message}\n${err.stack}`);
+      logger.info(`[${i + 1}/${NUM_ATTEMPT}] ${err.message}`);
 
       if (i + 1 === NUM_ATTEMPT) {
         throw new Error("Unable to ucred triple free !!");

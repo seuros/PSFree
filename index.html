@@ -78,7 +78,7 @@
                 </div>
             </button>
             <h3 class="text-white/70 text-lg mt-4" id="click-to-start-text">Click to start</h3>
-            <span id="buildTag">build 2026-08-08.7</span>
+            <span id="buildTag">build 2026-08-08.8</span>
             <span id="sinkStatus">sink: pending...</span>
             <button onclick="clearInterval(autoJbInterval);"
                 class="hidden mt-2 bg-red-600 hover:bg-red-700 p-3 rounded font-semibold transition-colors"
@@ -504,7 +504,7 @@
                 },
                 body: JSON.stringify({
                     seq: -1,
-                    msg: `[boot] index.html loaded, build 2026-08-08.7, ua=${navigator.userAgent}`,
+                    msg: `[boot] index.html loaded, build 2026-08-08.8, ua=${navigator.userAgent}`,
                 }),
             }).then(res => {
                 jbSinkStatus(`sink: ok (${res.status})`, '#39ff14');
