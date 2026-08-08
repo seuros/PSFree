@@ -128,7 +128,10 @@ async function doCssFontFaceJailbreak() {
     logger.info("===END===");
   } catch (e) {
     logger.error(e.message);
-    logger.error(e.stack);
+    if (e.stack) {
+      const origin = e.stack.split("\n")[0].trim();
+      logger.debug(`at ${origin}`);
+    }
     //mem.free_all();
   }
 }
