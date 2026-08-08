@@ -1,9 +1,11 @@
 {
   "name": "psfree-enhanced",
   "version": "1.5.1",
+  "buildTag": "2026-08-08.4",
   "description": "A web interface to jailbreak your PS4",
   "main": "index.html",
   "scripts": {
-    "manifest": "bun cachemaker.mjs"
+    "manifest": "bun cachemaker.mjs",
+    "version": "bun bump-version.mjs"
   }
 }
