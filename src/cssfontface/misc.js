@@ -29,13 +29,17 @@ const logger = {
         msg: msg,
       });
 
-      // TEMP DEBUG (jailstation): mirror to LAN log-sink so a hang/crash
-      // doesn't strand output on-screen with no copy/paste on console.
+      // TEMP DEBUG (jailstation): mirror to log-sink (via ngrok, HTTPS to
+      // dodge mixed-content blocking) so a hang/crash doesn't strand output
+      // on-screen with no copy/paste on console.
       try {
-        fetch("http://192.168.3.25:9999/log", {
+        fetch("https://68b3476b3775.ngrok.app/log", {
           method: "POST",
-          mode: "no-cors",
           keepalive: true,
+          headers: {
+            "Content-Type": "text/plain",
+            "ngrok-skip-browser-warning": "true",
+          },
           body: data,
         });
       } catch (e) {}
