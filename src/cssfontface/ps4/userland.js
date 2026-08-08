@@ -14,17 +14,18 @@ let libc_base = undefined;
 let libkernel_base = undefined;
 
 const mem = {
-  allocs: new Set(),
+  allocs: new Map(),
   alloc(len, ptr = true) {
     const ab = new ArrayBuffer(len);
-    this.allocs.add(ab);
-    return ptr ? ab.data() : ab;
+    const addr = ab.data();
+    this.allocs.set(addr.toString(), ab);
+    return ptr ? addr : ab;
   },
-  free(ab) {
-    return this.allocs.delete(ab);
+  free(addr) {
+    return this.allocs.delete(addr.toString());
   },
   free_all() {
-    for (const ab of this.allocs) {
+    for (const ab of this.allocs.values()) {
       // fix to avoid crash
       if (ab.hasOwnProperty("m_data")) {
         const ab_addr = arw.addrof(ab);
