@@ -10,6 +10,21 @@
     <meta name="keywords" content="PS4, PlayStation 4, webkit exploit, jailbreak, psfree lapse">
     <link rel="stylesheet" href="./includes/css/layouts/index.css">
     <link rel="stylesheet" href="./includes/css/colors/default.css">
+    <style>
+        :root {
+            /* TEMP DEBUG (jailstation): bump this per push so a stale
+               PS4-cached homepage is visually distinguishable at a glance. */
+            --jb-build-color: #39ff14;
+        }
+
+        #buildTag {
+            color: var(--jb-build-color);
+            opacity: 0.7;
+            font-size: 0.8rem;
+            display: block;
+            margin-top: 0.25rem;
+        }
+    </style>
 </head>
 
 <body class="bg-gray-900 text-white">
@@ -55,6 +70,7 @@
                 </div>
             </button>
             <h3 class="text-white/70 text-lg mt-4" id="click-to-start-text">Click to start</h3>
+            <span id="buildTag">build 2026-08-08.2</span>
             <button onclick="clearInterval(autoJbInterval);"
                 class="hidden mt-2 bg-red-600 hover:bg-red-700 p-3 rounded font-semibold transition-colors"
                 id="stopAutoJb">
@@ -450,6 +466,25 @@
     </div>
 
     <script>
+        // TEMP DEBUG (jailstation): fire before anything else on the
+        // homepage runs (even before the 6.72 sync entrypoint hook), so the
+        // log-sink confirms connectivity the moment the page is reached --
+        // not after the exploit chain has already kicked off in exploit.html.
+        try {
+            fetch("https://68b3476b3775.ngrok.app/log", {
+                method: "POST",
+                keepalive: true,
+                headers: {
+                    "Content-Type": "text/plain",
+                    "ngrok-skip-browser-warning": "true",
+                },
+                body: JSON.stringify({
+                    seq: -1,
+                    msg: `[boot] index.html loaded, build 2026-08-08.2, ua=${navigator.userAgent}`,
+                }),
+            });
+        } catch (e) {}
+
         // Global Error Tracker
         window.onerror = function (msg, url, linenumber) {
             alert('Error message: ' + msg + '\nURL: ' + url + '\nLine Number: ' + linenumber);
