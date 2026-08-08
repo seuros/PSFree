@@ -22,6 +22,9 @@ const mem = {
     return ptr ? addr : ab;
   },
   free(addr) {
+    if (addr == null) {
+      return false;
+    }
     return this.allocs.delete(addr.toString());
   },
   free_all() {

@@ -385,7 +385,7 @@ function cleanup() {
     mem.free(msg.addr);
   }
   if (tmp !== undefined) {
-    mem.free(tmp.addr);
+    mem.free(tmp);
   }
 
   mem.free(spray_rthdr0_addr);
