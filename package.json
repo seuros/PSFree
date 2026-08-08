@@ -1,7 +1,7 @@
 {
   "name": "psfree-enhanced",
   "version": "1.5.1",
-  "buildTag": "2026-08-08.4",
+  "buildTag": "2026-08-08.5",
   "description": "A web interface to jailbreak your PS4",
   "main": "index.html",
   "scripts": {
