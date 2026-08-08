@@ -38,7 +38,6 @@ const logger = {
           keepalive: true,
           headers: {
             "Content-Type": "text/plain",
-            "ngrok-skip-browser-warning": "true",
           },
           body: data,
         });
