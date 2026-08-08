@@ -1,5 +1,5 @@
 //#region Variables
-const NUM_ATTEMPT = 32;
+const NUM_ATTEMPT = 8;
 const NUM_IOV_WORKER = 4;
 const NUM_UIO_WORKER = 4;
 const NUM_IPV6_SOCK = 0x100;
