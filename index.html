@@ -24,6 +24,14 @@
             display: block;
             margin-top: 0.25rem;
         }
+
+        #sinkStatus {
+            color: orange;
+            opacity: 0.7;
+            font-size: 0.75rem;
+            display: block;
+            margin-top: 0.1rem;
+        }
     </style>
 </head>
 
@@ -71,6 +79,7 @@
             </button>
             <h3 class="text-white/70 text-lg mt-4" id="click-to-start-text">Click to start</h3>
             <span id="buildTag">build 2026-08-08.2</span>
+            <span id="sinkStatus">sink: pending...</span>
             <button onclick="clearInterval(autoJbInterval);"
                 class="hidden mt-2 bg-red-600 hover:bg-red-700 p-3 rounded font-semibold transition-colors"
                 id="stopAutoJb">
@@ -470,6 +479,22 @@
         // homepage runs (even before the 6.72 sync entrypoint hook), so the
         // log-sink confirms connectivity the moment the page is reached --
         // not after the exploit chain has already kicked off in exploit.html.
+        function jbSinkStatus(text, color) {
+            document.addEventListener('DOMContentLoaded', () => {
+                const el = document.getElementById('sinkStatus');
+                if (el) {
+                    el.textContent = text;
+                    el.style.color = color;
+                }
+            });
+            // In case DOMContentLoaded already fired by the time this runs.
+            const el = document.getElementById('sinkStatus');
+            if (el) {
+                el.textContent = text;
+                el.style.color = color;
+            }
+        }
+
         try {
             fetch("https://68b3476b3775.ngrok.app/log", {
                 method: "POST",
@@ -482,8 +507,14 @@
                     seq: -1,
                     msg: `[boot] index.html loaded, build 2026-08-08.2, ua=${navigator.userAgent}`,
                 }),
+            }).then(res => {
+                jbSinkStatus(`sink: ok (${res.status})`, '#39ff14');
+            }).catch(err => {
+                jbSinkStatus(`sink: FAIL - ${err.message}`, 'red');
             });
-        } catch (e) {}
+        } catch (e) {
+            jbSinkStatus(`sink: THROW - ${e.message}`, 'red');
+        }
 
         // Global Error Tracker
         window.onerror = function (msg, url, linenumber) {
