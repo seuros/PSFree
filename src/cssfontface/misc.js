@@ -28,6 +28,17 @@ const logger = {
         seq: this.seq++,
         msg: msg,
       });
+
+      // TEMP DEBUG (jailstation): mirror to LAN log-sink so a hang/crash
+      // doesn't strand output on-screen with no copy/paste on console.
+      try {
+        fetch("http://192.168.3.25:9999/log", {
+          method: "POST",
+          mode: "no-cors",
+          keepalive: true,
+          body: data,
+        });
+      } catch (e) {}
     }
   },
 };
