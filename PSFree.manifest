@@ -1,8 +1,8 @@
 CACHE MANIFEST
-# content 99bb618a387ea1ce
+# content 65364851f88d1a15
 
 CACHE:
-.mailmap
+bump-version.mjs
 exploit.html
 includes/css/colors/default.css
 includes/css/layouts/index.css
@@ -105,6 +105,7 @@ src/lapse/ps4/900.mjs
 src/lapse/ps4/903.mjs
 src/lapse/ps4/950.mjs
 src/lapse/ps5/.gitinclude
+src/log-sink-config.js
 src/module/chain.mjs
 src/module/int64.mjs
 src/module/mem.mjs

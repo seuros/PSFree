@@ -6,7 +6,7 @@ const EXCLUDED_EXTS = new Set([
     'bat', 'txt', 'exe', 'mp4', 'py', 'bak', 'zip',
     'mp3', 'sh', 'h', 'c', 'o', 'ld', 'md', 'd', 'json',
 ]);
-const EXCLUDED_FILES = new Set(['.gitignore', 'COPYING', 'LICENSE', '.prettierrc', OUTPUT, SELF]);
+const EXCLUDED_FILES = new Set(['.gitignore', '.mailmap', '.nojekyll', 'COPYING', 'LICENSE', '.prettierrc', OUTPUT, SELF]);
 
 const keep = (rel) => {
     const segs = rel.split('/');
