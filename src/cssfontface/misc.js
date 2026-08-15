@@ -33,7 +33,7 @@ const logger = {
       // dodge mixed-content blocking) so a hang/crash doesn't strand output
       // on-screen with no copy/paste on console.
       try {
-        fetch("https://5d076e505187.ngrok.app/log", {
+        fetch(LOG_SINK_URL, {
           method: "POST",
           keepalive: true,
           headers: {
