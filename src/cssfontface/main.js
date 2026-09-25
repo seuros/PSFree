@@ -8,7 +8,9 @@ function load_script(src, remote = true, transfer = []) {
   });
 }
 
-async function doCssFontFaceJailbreak() {
+// variant is passed explicitly by the caller (chains.js rows 3/4 via
+// cssFontFaceJailbreak): "netctrl" or "lapse". Falls back to "lapse".
+async function doCssFontFaceJailbreak(variant) {
   await load_script("./src/cssfontface/misc.js");
 
   try {
@@ -51,7 +53,7 @@ async function doCssFontFaceJailbreak() {
       default:
         logger.info(`Unsupported console ${version.console}`);
     }
-    const exploitChain = localStorage.getItem('exploitChain') == 3 ? "netctrl" : "lapse";
+    const exploitChain = variant === "netctrl" ? "netctrl" : "lapse";
     await load_script(`./src/cssfontface/${exploitChain}.js`);
 
     logger.info(`===${exploitChain.toUpperCase()}===`);

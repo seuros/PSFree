@@ -1,5 +1,5 @@
 window.lang = {
-    "title": "PSFree Enhanced",
+    "title": "SloposFree",
     "ps4FwCompatible": `PS4 FW: {ps4fw} | Compatible`,
     "ps4FwIncompatible": `PS4 FW: {ps4fw} | Incompatible`,
     "notPs4": "You are not on a PS4, platform: ",
@@ -12,9 +12,9 @@ window.lang = {
     "payloadsToolsHeader": "Tools",
     "payloadsGameHeader": "Game",
     "payloadsLinuxHeader": "Linux",
-    "aboutPsfreeHeader": "About PSFree Enhanced",
+    "aboutPsfreeHeader": "About SloposFree",
     "aboutVersion": "Version: 2.0",
-    "aboutDescription": "A web interface to jailbreak your PS4 using PSFree chained with Lapse kernel exploit.",
+    "aboutDescription": "A web interface to jailbreak your PS4/PS5 using PSFree, CSSFontFace, SlopKit and Relapse exploit chains.",
     "closeButton": "Close",
     "settingsPsfreeHeader": "Settings",
     "ps4FirmwareSupportedHeader": "Supported PS4 firmware",
@@ -56,5 +56,8 @@ window.lang = {
     "bundleLapse": "Feyzee61's PSFree Lapse",
     "cssFontFaceNetCtrl": "CSSFontFace + NetCtrl",
     "cssFontFaceLapse": "CSSFontFace + Lapse",
+    "slopKitLapse": "SlopKit + Lapse",
+    "slopKitNetCtrl": "SlopKit + NetCtrl",
+    "relapse": "Relapse",
     "userlandOnlyOnJB67x":  "Load userland exploit only on Jailbreak"
 }

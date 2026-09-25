@@ -1,34 +1,43 @@
 function CheckFW() {
     const userAgent = navigator.userAgent;
-    const ps4Regex = /PlayStation 4/;
-    var fwVersion = navigator.userAgent.substring(navigator.userAgent.indexOf('5.0 (') + 19, navigator.userAgent.indexOf(') Apple')).replace("layStation 4/", "");
+    // Detection is now console-aware: parseTarget() yields a 0xC_MM_mm target
+    // (console bit + BCD firmware) or null. This replaces the old brittle
+    // substring/regex on "PlayStation 4" and lets a PS5 be identified instead
+    // of falling into the "unknown platform" branch below. See chains.js.
+    const target = parseTarget(userAgent);
+    user.target = target;
+    const fwVersion = targetToFloat(target); // display float, e.g. "11.02"
     var elementsToHide = [
         'ps-logo-container', 'choosejb-initial', 'exploit-main-screen', 'scrollDown',
         'click-to-start-text'
     ];
 
-    if (ps4Regex.test(userAgent)) {
-        if (isSupportedFw(fwVersion)) {
+    if (targetIsPS4(target) || targetIsPS5(target)) {
+        user.platform = targetIsPS5(target) ? 'PS5' : 'PS4';
+
+        if (isTargetSupported(target)) {
             ui.ps4FwStatus.style.color = 'green';
 
             // Highlight firmware in about popup
-            var fwElement = "fw" + fwVersion.replace('.', '');
+            var fwElement = "fw" + (fwVersion || '').replace('.', '');
             var el = document.getElementById(fwElement);
             if (el) el.classList.add('fwSelected');
 
-            // show "load userland exploit only on jailbreak" option
-            if (fwVersion >= 6.70 && fwVersion <= 6.72)
+            // show "load userland exploit only on jailbreak" option (PS4 6.7x)
+            if (target >= 0x00670 && target <= 0x00672)
                 document.getElementById("userlandOnlyOnJB67x").classList.toggle('hidden');
 
-            updateExploitChainVisibility(fwVersion);
-            firstTimeExploitChain(fwVersion);
+            updateExploitChainVisibility(target);
+            autoSelectExploitChain(target);
         } else {
+            // Unsupported: an out-of-range PS4, or a PS5 whose firmware has no
+            // registered chain yet (every PS5 falls here until a row is added).
             ui.ps4FwStatus.style.color = 'orange';
             if (isHttps()) {
                 ui.secondHostBtn[0].style.display = "block";
                 terminateCache(); // Dont cache in case no webkit and is https
             } else {
-                // modify elements inside elementsToHide for unsupported ps4 firmware to load using GoldHEN's PayLoader
+                // modify elements inside elementsToHide for unsupported firmware to load using GoldHEN's PayLoader
                 const toRemove = ['exploit-main-screen', 'scrollDown', 'advancedPayloads'];
                 elementsToHide = elementsToHide.filter(e => !toRemove.includes(e));
                 elementsToHide.push('initial-screen', 'exploit-status-panel', 'henSelection', 'autoJbContainer', 'successRate', 'bareboneJBOption', 'chooseExploitChain');
@@ -44,9 +53,14 @@ function CheckFW() {
                 if (el) el.style.display = 'none';
             });
         }
-        window.ps4Fw = fwVersion;
-        user.ip = "127.0.0.1"
-        user.ps4Fw = fwVersion;
+        // Legacy PS4 fields (network payload send + fw highlight). Set for PS4
+        // ONLY: a PS5 float written here would be misread as a supported PS4 by
+        // the isSupportedFw() float shim in payloads.js / language.js.
+        if (targetIsPS4(target)) {
+            window.ps4Fw = fwVersion;
+            user.ip = "127.0.0.1"
+            user.ps4Fw = fwVersion;
+        }
     } else {
         // Not a PS4
         user.platform = 'Unknown platform';
@@ -107,31 +121,45 @@ function toggleVisibility(id, show) {
     el.classList.toggle('hidden', !show);
 }
 
-// Pick a sane default exploit chain the first time a given browser hits the page
-function firstTimeExploitChain(fwVersion) {
-    if (localStorage.getItem('exploitChain') != null) return;
-    var fwNum = parseFloat(fwVersion);
-    var chain = (fwNum >= 9.00) ? 3 : 4; // NetCtrl if available, else CSSFontFace Lapse
-    if (fwNum >= 7.00 && fwNum <= 9.60) {
-        chain = 1; // Feyzee61's PSFree Lapse (bundle)
+// Auto-select the best chain for this target on every load, unless the user has
+// a deliberate pin that is still valid for the detected firmware.
+//  - unpinned                -> bestChainForTarget
+//  - pinned but not valid    -> drop pin, re-auto, log it (console/fw changed,
+//                               or a PS4 pin carried onto a PS5)
+//  - pinned and valid        -> honor it
+function autoSelectExploitChain(target) {
+    var valid = chainsForTarget(target);
+    var pinned = localStorage.getItem('exploitChainPinned') === 'true';
+    var current = parseInt(localStorage.getItem('exploitChain'), 10);
+    var pinnedValid = pinned && !isNaN(current) &&
+        valid.some(function (c) { return c.id === current; });
+
+    if (pinnedValid) {
+        user.exploitChain = current; // honor the manual choice
+        return;
     }
-    exploitChain(chain);
-    loadExploitChain();
+
+    if (pinned) {
+        localStorage.removeItem('exploitChainPinned');
+        if (typeof log === 'function') {
+            log("Saved exploit chain isn't valid for this firmware — re-selecting.", "gray");
+        }
+    }
+
+    var best = bestChainForTarget(target);
+    if (best) {
+        exploitChain(best.id); // auto path: does NOT pin
+    }
 }
 
-// Show only the exploit chain options valid for this firmware
-function updateExploitChainVisibility(fwVersion) {
-    var fwNum = parseFloat(fwVersion);
-    if (isNaN(fwNum)) return;
-
-    // 6.00 - 11.02 sees cssfontface lapse, 9.00 - 11.02 sees cssfontface netctrl
-    var showCssFontFaceLapse = isSupportedFw(fwNum);
-    var showCssFontFaceNetctrl = (fwNum >= 9.00 && fwNum <= webKitMax);
-    toggleVisibility('cssFontFaceNetCtrlExp', showCssFontFaceNetctrl);
-    toggleVisibility('cssFontFaceLapseExp', showCssFontFaceLapse);
-
-    // 7.00 - 9.60 sees modular and bundle psfree lapse
-    var showPsfreeLapse = (fwNum >= 7.00 && fwNum <= 9.60);
-    toggleVisibility('modularLapseExp', showPsfreeLapse);
-    toggleVisibility('bundleLapseExp', showPsfreeLapse);
+// Show only the exploit chain radios valid for this target — driven entirely by
+// the registry, so adding a chain row lights up its radio with no edit here.
+function updateExploitChainVisibility(target) {
+    if (target === null || isNaN(target)) return;
+    var validIds = {};
+    chainsForTarget(target).forEach(function (c) { validIds[c.id] = true; });
+    EXPLOIT_CHAINS.forEach(function (c) {
+        if (!c.el) return; // chains without a radio (e.g. badhoist)
+        toggleVisibility(c.el, !!validIds[c.id]);
+    });
 }

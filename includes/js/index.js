@@ -9,18 +9,23 @@ var user = {
   ps4Fw: localStorage.getItem('ps4Fw'),  // Used for the case of sending the payload over the network
   clearLog: true,
   bareboneJB: localStorage.getItem('bareboneJB') === 'true',
-  exploitChain: parseFloat(localStorage.getItem('exploitChain')), //Exploit chain method
+  exploitChain: parseInt(localStorage.getItem('exploitChain'), 10), // chain id (see chains.js)
+  target: null,           // detected 0xC_MM_mm target, set by CheckFW()
   blockJailbreak: false,  // Prevent double jailbreak execution
 }
 var autoJbInterval;
 let lastScrollY = 0;
 let lastSection = "initial";
 var devMode = false;   // Dev mode for PC debugging
+// PS4 support window is now DERIVED from the chain registry (chains.js). These
+// stay defined as floats only for any legacy reference; the registry is
+// authoritative. Registering a new PS4 chain widens the window automatically.
 var webKitMin = 6.00;
 var webKitMax = 11.02;
+// Compatibility shim: PS4-only float FW -> registry support check. Callers in
+// payloads.js / autoJbRetry.js / language.js still pass window.ps4Fw floats.
 function isSupportedFw(fw) {
-  var fwNum = parseFloat(fw);
-  return !isNaN(fwNum) && fwNum >= webKitMin && fwNum <= webKitMax;
+  return isTargetSupported(fwToTarget(fw, 0));
 }
 const ui = {
   mainContainer: document.querySelector('.mainContainer'),
@@ -165,41 +170,22 @@ async function jailbreak() {
     location.href = "./exploit.html";
     return;
   }
-  let fwVersion = Number(user.ps4Fw);
-
-  switch (true) {
-    case (fwVersion >= 6.70 && fwVersion <= 6.72):
-      log("Initializing Exploit...");
-      var value = localStorage.getItem('userlandOnlyOnJB67x') == "true";
-      if (value) {
-        // set userlandOnlyOnJB67x to false, on reload to load userland exploit
-        localStorage.setItem('userlandOnlyOnJB67x', "false");
-        // set jailbreakNow to true to automatically launch jailbreak function
-        sessionStorage.setItem("jailbreakNow", 'true');
-        location.reload();
-      }
-      badHoistJailbreak();
-      break;
-    default:
-      // checkFw.js already guarantees exploitChain is valid for the current firmware
-      switch (user.exploitChain) {
-        case 0: // modular lapse
-        case 1: // bundle lapse
-          psfreeLapse();
-          break;
-        case 3: // cssfontface netctrl
-        case 4: // cssfontface lapse
-          cssFontFaceJailbreak();
-          break;
-      }
+  // checkFw.js has already resolved user.exploitChain to a chain valid for the
+  // detected target (auto-select, or an honored manual pin). Dispatch is a
+  // single registry call now — the firmware->chain knowledge lives in chains.js,
+  // and the old 6.7x reload dance is chain 2's prepare() (see badHoistPrepare).
+  try {
+    await runChain(user.exploitChain);
+  } catch (e) {
+    log("Failed to start exploit chain: " + e.message, "red");
   }
   // add one jailbreak attempt to the stats
   updateJbStats(1, 0);
 }
 
-async function psfreeLapse() {
-  // Exploit chain method check
-  if (user.exploitChain === 0) {
+// mode: 'modular' (id 0, src/alert.mjs) or 'bundle' (id 1, Feyzee61's bundle.js)
+async function psfreeLapse(mode) {
+  if (mode === 'modular') {
     try {
       await loadScript('./src/alert.mjs');
     } catch (e) {
@@ -221,8 +207,20 @@ async function psfreeLapse() {
   }
 }
 
+// chain 2 prepare(): the 6.7x "load userland exploit only on jailbreak" reload
+// dance. On the first pass it flips the flag, arms jailbreakNow, and reloads so
+// the early entrypoint hook can run; the reloaded pass falls through to load().
+function badHoistPrepare() {
+  if (localStorage.getItem('userlandOnlyOnJB67x') == "true") {
+    localStorage.setItem('userlandOnlyOnJB67x', "false");
+    sessionStorage.setItem("jailbreakNow", 'true');
+    location.reload();
+  }
+}
+
 // Taken from Feyzee61 ps4jb
 async function badHoistJailbreak() {
+  log("Initializing Exploit...");
   if (window.entrypoint672_result < 1) {
     log("An error occured during Bad Hoist Entrypoint\nRetrying..", "orange");
     await sleep(2000);
@@ -261,10 +259,37 @@ async function badHoistJailbreak() {
   }
 }
 
-async function cssFontFaceJailbreak() {
+// variant: 'netctrl' (id 3) or 'lapse' (id 4). Passed explicitly so main.js no
+// longer reaches back into localStorage to decide.
+async function cssFontFaceJailbreak(variant) {
   log("Loading ufm42's CSSFontFace exploit chain implementation..");
   await getScript('./src/cssfontface/main.js');
-  doCssFontFaceJailbreak();
+  doCssFontFaceJailbreak(variant);
+}
+
+// Raw-Game's SlopKit (FW 11.00-13.00). variant: 'lapse' (id 5, chain_lapse) or
+// 'netctrl' (id 6, chain_poops). Self-executing ES modules -> load as modules.
+async function slopKit(variant) {
+  log("Loading Raw-Game's SlopKit exploit chain implementation..");
+  try {
+    if (variant === 'netctrl') {
+      await getScript("src/slopkit/chain_poops.js", true);
+    } else {
+      await getScript("src/slopkit/chain_lapse.js", true);
+    }
+  } catch (error) {
+    log("Failed to load SlopKit: " + error.message, "red");
+  }
+}
+
+// Raw-Game's Relapse (FW 13.02-13.52). Self-executing ES module.
+async function relapseJailbreak() {
+  log("Loading Raw-Game's Relapse exploit chain implementation..");
+  try {
+    await getScript("src/relapse/jb.js?v=10", true);
+  } catch (error) {
+    log("Failed to load Relapse: " + error.message, "red");
+  }
 }
 
 function jailbreakSuccess() {
@@ -277,11 +302,14 @@ function jailbreakSuccess() {
   setTimeout(() => { window.location.href = "./"; }, 5000);
 }
 
-// Taken from Feyzee61's ps4jb
-function getScript(source) {
+// Taken from Feyzee61's ps4jb.
+// isModule=true injects <script type="module"> — required for the slopkit and
+// relapse trees, which are self-executing ES modules with top-level import.
+function getScript(source, isModule = false) {
   return new Promise((resolve, reject) => {
     const gs = document.createElement('script');
     gs.src = source;
+    gs.type = isModule ? 'module' : 'text/javascript';
     gs.async = false;
     gs.onload = () => resolve();
     gs.onerror = () => reject(new Error("Script load failed: " + source));
@@ -478,13 +506,17 @@ function setAdvancedPayloads(inputState) {
   // Update variable/localstorage value
   user.advancedPayloads = inputState;
   localStorage.setItem("advancedPayloads", inputState)
+  var chooser = document.getElementById('chooseExploitChain');
   if (inputState == true) {
     // Its true, show tab and render payloads
     ui.advancedPayloadsContainer.classList.remove('hidden')
     renderPayloads(payloadsList.filter(p => p.category === 'advanced'));
+    // reveal the advanced exploit-chain override
+    if (chooser) chooser.classList.remove('hidden');
   } else {
     // its false, hide payloads' tab and move to tools' tab
     ui.advancedPayloadsContainer.classList.add('hidden')
+    if (chooser) chooser.classList.add('hidden');
     ui.toolsTab.click();
   }
 }
@@ -495,6 +527,8 @@ function loadAdvancedPayloads() {
     ui.advancedPayloadsInput.checked = true;
     ui.advancedPayloadsContainer.classList.remove('hidden')
     renderPayloads(payloadsList.filter(p => p.category === 'advanced'));
+    var chooser = document.getElementById('chooseExploitChain');
+    if (chooser) chooser.classList.remove('hidden');
   }
 }
 
@@ -715,11 +749,22 @@ function setBareboneJB(checked) {
 
 }
 
-// save exploit chain method to localStorage
-function exploitChain(value) {
-  var num = parseFloat(value);
+// save exploit chain method to localStorage.
+// pinned=true marks it a deliberate manual choice (radio onchange) that survives
+// reloads; auto-select calls this without pinning. Switching the selection also
+// wipes the slopkit/relapse shared attempt counters so a stale count from a
+// previously-run chain can't leak into the next one.
+function exploitChain(value, pinned) {
+  var num = parseInt(value, 10);
+  if (num !== user.exploitChain) {
+    sessionStorage.removeItem('slopkit-core-1:attempts');
+    sessionStorage.removeItem('slopkit-core-1:burst');
+  }
   localStorage.setItem('exploitChain', num);
   user.exploitChain = num;
+  if (pinned) {
+    localStorage.setItem('exploitChainPinned', 'true');
+  }
 }
 // load option when loading the page
 function loadExploitChain() {

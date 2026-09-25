@@ -1,7 +1,7 @@
-const OUTPUT = 'PSFree.manifest';
+const OUTPUT = 'SloposFree.manifest';
 const SELF = 'cachemaker.mjs';
 
-const EXCLUDED_DIRS = new Set(['.venv', '.git', 'noneed', '.github', 'node_modules']);
+const EXCLUDED_DIRS = new Set(['.venv', '.git', 'noneed', '.github', 'node_modules', 'tests']);
 const EXCLUDED_EXTS = new Set([
     'bat', 'txt', 'exe', 'mp4', 'py', 'bak', 'zip',
     'mp3', 'sh', 'h', 'c', 'o', 'ld', 'md', 'd', 'json',

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" manifest="PSFree.manifest">
+<html lang="en" manifest="SloposFree.manifest">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <title>PSFree Enhanced</title>
-    <meta name="description" content="A feature rich PS4 exploit host"/>
+    <title>SloposFree</title>
+    <meta name="description" content="A feature rich PS4/PS5 exploit host"/>
     <meta name="author" content="ArabPixel">
-    <meta name="keywords" content="PS4, PlayStation 4, webkit exploit, jailbreak, psfree lapse">
+    <meta name="keywords" content="PS4, PS5, PlayStation 4, PlayStation 5, webkit exploit, jailbreak, psfree lapse, slopkit, relapse">
     <link rel="stylesheet" href="./includes/css/layouts/index.css">
     <link rel="stylesheet" href="./includes/css/colors/default.css">
     <style>
@@ -324,10 +324,10 @@
     <div class="fixed inset-0 bg-black/50 z-50 flex backdrop-blur-sm items-center justify-center p-4 hidden"
         id="about-popup-overlay">
         <div id="about-popup" class="bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-md">
-            <h2 class="text-2xl font-bold">About PSFree Enhanced</h2>
+            <h2 class="text-2xl font-bold">About SloposFree</h2>
             <div class="space-y-2 text-white/80">
                 <p>Version: 2.0</p>
-                <p>A web interface to jailbreak your PS4 using PSFree chained with Lapse kernel exploit</p>
+                <p>A web interface to jailbreak your PS4/PS5 using PSFree, CSSFontFace, SlopKit and Relapse exploit chains</p>
             </div>
             <p id="infoProtip" class="mt-2">ProTip: New functions become available if hosted locally or on a PS4 using
                 the PS4-Websrv payload.</p>
@@ -382,25 +382,40 @@
         id="settings-popup-overlay">
         <div id="settings-popup"
             class="bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
-            <h2 class="text-2xl font-bold mb-4">PSFree settings</h2>
-            <div id="chooseExploitChain" class="mb-4">
+            <h2 class="text-2xl font-bold mb-4">SloposFree settings</h2>
+            <!-- Chain is auto-selected from the detected firmware (chains.js). This
+                 chooser is an advanced override, hidden until "Show Advanced
+                 Payloads" is enabled. Manual selection pins (2nd arg true). -->
+            <div id="chooseExploitChain" class="mb-4 hidden">
                 <h3 class="text-lg font-semibold mb-2" id="exploitChainTitle">Exploit Chain</h3>
                 <div class="radio-group space-y-2 flex flex-wrap">
                     <label id="modularLapseExp" class="flex items-center text-white/80">
-                        <input type="radio" name="exploitChain" value="0" onchange="exploitChain(this.value);">
+                        <input type="radio" name="exploitChain" value="0" onchange="exploitChain(this.value, true);">
                         <p id="modularLapse">Default's PSFree Lapse</p>
                     </label>
                     <label id="bundleLapseExp" class="flex items-center text-white/80">
-                        <input type="radio" name="exploitChain" value="1" onchange="exploitChain(this.value);">
+                        <input type="radio" name="exploitChain" value="1" onchange="exploitChain(this.value, true);">
                         <p id="bundleLapse">Feyzee61's PSFree Lapse</p>
                     </label>
                     <label id="cssFontFaceNetCtrlExp" class="hidden flex items-center text-white/80">
-                        <input type="radio" name="exploitChain" value="3" onchange="exploitChain(this.value);">
+                        <input type="radio" name="exploitChain" value="3" onchange="exploitChain(this.value, true);">
                         <p id="cssFontFaceNetCtrl">CSSFontFace + NetCtrl</p>
                     </label>
                     <label id="cssFontFaceLapseExp" class="hidden flex items-center text-white/80">
-                        <input type="radio" name="exploitChain" value="4" onchange="exploitChain(this.value);">
+                        <input type="radio" name="exploitChain" value="4" onchange="exploitChain(this.value, true);">
                         <p id="cssFontFaceLapse">CSSFontFace + Lapse</p>
+                    </label>
+                    <label id="slopKitLapseExp" class="hidden flex items-center text-white/80">
+                        <input type="radio" name="exploitChain" value="5" onchange="exploitChain(this.value, true);">
+                        <p id="slopKitLapse">SlopKit + Lapse</p>
+                    </label>
+                    <label id="slopKitNetCtrlExp" class="hidden flex items-center text-white/80">
+                        <input type="radio" name="exploitChain" value="6" onchange="exploitChain(this.value, true);">
+                        <p id="slopKitNetCtrl">SlopKit + NetCtrl</p>
+                    </label>
+                    <label id="relapseExp" class="hidden flex items-center text-white/80">
+                        <input type="radio" name="exploitChain" value="7" onchange="exploitChain(this.value, true);">
+                        <p id="relapse">Relapse</p>
                     </label>
                 </div>
             </div>
@@ -560,6 +575,7 @@
             }
         });
     </script>
+    <script src="./includes/js/chains.js"></script>
     <script src="./includes/js/index.js"></script>
     <script src="./includes/payloads/payloads.js"></script>
     <script src="./includes/js/payloadsList.js"></script>

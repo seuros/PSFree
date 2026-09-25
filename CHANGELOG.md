@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### SloposFree fork
+
+- Renamed project to **SloposFree** (PS4/PS5 exploit host). AppCache manifest
+  renamed `PSFree.manifest` → `SloposFree.manifest` (one-time full re-download).
+- New chain registry `includes/js/chains.js` keyed on the `0xC_MM_mm` target
+  (console bit + BCD firmware), collapsing five disagreeing hardcoded dispatch
+  sites (`checkFw.js`, `index.js`, `exploit.html`, `src/cssfontface/main.js`).
+- Chain is auto-selected from the detected User-Agent by rank; the chooser is
+  hidden behind advanced settings and honors a valid manual pin.
+- PS5 axis: `parseTarget`/`user.platform` now detect and name PS5; no PS5 chain
+  registered yet (public PS5 browser chains are userland-only).
+- Imported Raw-Game's SlopKit (FW 11.00–13.00) and Relapse (FW 13.02–13.52)
+  exploit chains under `src/slopkit/` and `src/relapse/`; module-capable script
+  loader, relative worker/patch paths.
+- Per-file AGPL headers left intact (upstream copyright notices).
+
 ### Added
 
 - Kernel patches from pOOBs4 by @ChendoChap and ported for 7.00-9.60
